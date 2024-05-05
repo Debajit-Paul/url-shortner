@@ -2,10 +2,24 @@ import { nanoid } from "nanoid";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { env } from "hono/adapter";
+import { z } from "zod";
+
+const urlSchema = z.object({
+  url: z.string().url(),
+});
 
 const generateNewUrl = async (c: any) => {
   const urlId = nanoid(8);
   const body = await c.req.json();
+  const { success } = urlSchema.safeParse(body);
+  if (!success) {
+    return c.json(
+      {
+        message: "Incorrect inputs",
+      },
+      400
+    );
+  }
 
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
 
