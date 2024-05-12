@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "ClickHistory" ALTER COLUMN "clickTime" SET DEFAULT CURRENT_TIMESTAMP;

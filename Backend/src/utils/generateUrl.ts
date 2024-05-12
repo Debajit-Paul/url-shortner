@@ -2,23 +2,12 @@ import { nanoid } from "nanoid";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { env } from "hono/adapter";
-import { z } from "zod";
-
-const urlSchema = z.object({
-  url: z.string().url(),
-});
 
 const generateNewUrl = async (c: any) => {
-  const urlId = nanoid(8);
-  const body = await c.req.json();
-  const { success } = urlSchema.safeParse(body);
-  if (!success) {
-    return c.json(
-      {
-        message: "Incorrect inputs",
-      },
-      400
-    );
+  const { url, customId } = await c.req.json();
+
+  if (!url) {
+    return c.json({ message: "url is needed" }, 400);
   }
 
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
@@ -27,13 +16,9 @@ const generateNewUrl = async (c: any) => {
     datasourceUrl: DATABASE_URL,
   }).$extends(withAccelerate());
 
-  if (!body.url) {
-    return c.json({ message: "url is needed" }, 400);
-  }
-
   const urlExist = await prisma.url.findFirst({
     where: {
-      redirectURL: body.url,
+      redirectURL: url,
     },
   });
 
@@ -41,16 +26,44 @@ const generateNewUrl = async (c: any) => {
     return c.json({ message: "url already exist", id: urlExist.shortId });
   }
 
-  await prisma.url.create({
-    data: {
-      shortId: urlId,
-      redirectURL: body.url,
-    },
-  });
+  const userId = c.get("userId");
 
-  return c.json({
-    id: urlId,
-  });
+  if (!customId) {
+    const urlId = nanoid(8);
+    const newUrl = await prisma.url.create({
+      data: {
+        shortId: urlId,
+        redirectURL: url,
+        ...(userId && { user: { connect: { id: userId } } }),
+      },
+    });
+    return c.json({
+      id: newUrl.id,
+      url: newUrl.shortId,
+    });
+  } else {
+    const shortIdExist = await prisma.url.findFirst({
+      where: {
+        shortId: customId,
+      },
+    });
+
+    if (shortIdExist) {
+      return c.json({ message: "customId already exist" }, 400);
+    }
+
+    const newUrl = await prisma.url.create({
+      data: {
+        shortId: customId,
+        redirectURL: url,
+        ...(userId && { user: { connect: { id: userId } } }),
+      },
+    });
+    return c.json({
+      id: newUrl.id,
+      url: newUrl.shortId,
+    });
+  }
 };
 
 export { generateNewUrl };

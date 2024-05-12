@@ -3,9 +3,13 @@ import { generateNewUrl } from "../utils/generateUrl";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { env } from "hono/adapter";
+import { urlSchema } from "../utils/zod";
+import { zValidator } from "@hono/zod-validator";
+
 const url = new Hono();
 
-url.post("/", generateNewUrl);
+url.post("/", zValidator("json", urlSchema), generateNewUrl);
+
 url.get("/:urlId", async (c) => {
   const urlId = c.req.param("urlId");
 
@@ -19,14 +23,22 @@ url.get("/:urlId", async (c) => {
     where: {
       shortId: urlId,
     },
-    select: {
-      redirectURL: true,
-    },
   });
 
   if (!url?.redirectURL) {
     return c.json({ message: "invalid url" }, 400);
   }
+
+  await prisma.clickHistory.create({
+    data: {
+      clickTime: new Date(),
+      url: {
+        connect: {
+          id: url.id,
+        },
+      },
+    },
+  });
 
   return c.redirect(`${url?.redirectURL}`);
 });

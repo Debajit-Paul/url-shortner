@@ -1,11 +1,11 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { url } from "./routers/url";
+import { mainRouter } from "./routers";
 
 const app = new Hono();
 
 app.use(cors());
 
-app.route("/url", url);
+app.route("/", mainRouter);
 
 export default app;

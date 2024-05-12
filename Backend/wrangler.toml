@@ -2,7 +2,8 @@ name = "biturl"
 compatibility_date = "2023-12-01"
 
 [vars]
-DATABASE_URL=""
+DATABASE_URL="prisma://accelerate.prisma-data.net/?api_key=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcGlfa2V5IjoiYWY3NjU2YmUtYjY1YS00NGM0LWJkMjUtY2M5N2FiMmVhNmUyIiwidGVuYW50X2lkIjoiMjA2YWYyOGY3ZmZkNjE5ZjBlNGRiMDIyZmZjYjNjN2Y4OWFlYWY4YWFhMjMzYzExMzFlMzQ3MmZhOWM3MjY3MCIsImludGVybmFsX3NlY3JldCI6IjIyZWVlNjUzLWUxMTItNDQzMy05MzhiLWM3MDdhNzg2YjcyZCJ9.3OoAm_tNX7bQbNUrQyh2DjoX0Y5Y8EB6aB3eO6_nEms"
+JWT_SECRET="VerySecretStuff"
 
 # [vars]
 # MY_VAR = "my-variable"
