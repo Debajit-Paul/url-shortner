@@ -40,6 +40,8 @@ url.get("/:urlId", async (c) => {
     },
   });
 
+  console.log("clicked");
+
   return c.redirect(`${url?.redirectURL}`);
 });
 

@@ -1,6 +1,6 @@
 import { Button } from "./button";
 import { Link } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { ArrowUpRight } from "lucide-react";
 import {
   DropdownMenu,
@@ -14,7 +14,7 @@ const Header = () => {
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   return (
-    <div className="w-full mx-auto px-[2rem] flex h-[3.5rem] max-w-screen-2xl items-center justify-between">
+    <div className="w-full mx-auto px-[2rem] flex h-[3.5rem] max-w-screen-2xl items-center justify-between border-b-2">
       <Link to={"/"}>
         <img src="./logo.jpg" className="w-[80px]" />
       </Link>
