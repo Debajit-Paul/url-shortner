@@ -86,9 +86,7 @@ user.post("/me/signin", zValidator("json", signInSchema), async (c) => {
 user.use(async (c, next) => jwtVerify(c, next));
 user.get("/", async (c) => {
   const userId = c.get("userId");
-
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
-
   const prisma = new PrismaClient({
     datasourceUrl: DATABASE_URL,
   }).$extends(withAccelerate());

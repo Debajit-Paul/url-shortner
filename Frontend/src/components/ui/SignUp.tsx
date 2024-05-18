@@ -114,8 +114,8 @@ const SignUp = () => {
           </CardContent>
           <CardFooter>
             {isLoading ? (
-              <Button disabled>
-                <Loader2 className="mr-2 h-4 animate-spin w-full" />
+              <Button disabled className="w-full">
+                <Loader2 className="mr-2 h-4 animate-spin" />
                 Loading
               </Button>
             ) : (

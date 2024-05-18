@@ -16,7 +16,7 @@ const UrlGenerator = ({ getUserInfo }: any) => {
     try {
       setIsLoading(true);
       await axios.post(
-        "http://localhost:8787/user",
+        "https://biturl.debajit.workers.dev/user/url",
         {
           url: longurl,
           customId,
@@ -42,13 +42,14 @@ const UrlGenerator = ({ getUserInfo }: any) => {
         placeholder="https://anything.url"
         onChange={(e: any) => setLongUrl(e.target.value)}
       />
-      <div
-        className=" group flex items-center gap-3 h-10 w-[120px] rounded-md border border-input bg-background px-3 py-2 text-sm text-slate-500 cursor-pointer"
+      <Button
+        variant="outline"
+        className=" group flex items-center gap-3 w-[120px]"
         onClick={() => setCustomeUrl(!customeUrl)}
       >
         <Settings className="rotate-0 group-hover:rotate-180 duration-700 ease-in-out" />
         Custome
-      </div>
+      </Button>
       {customeUrl && (
         <div className="flex items-center gap-3 h-8 duration-700 ease-in-out">
           <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-slate-500 select-none">

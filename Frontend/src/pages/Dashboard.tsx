@@ -1,30 +1,32 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import UrlGenerator from "../components/ui/UrlGenerator";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { SignalMedium } from "lucide-react";
-import { MdContentCopy } from "react-icons/md";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import LinkCard from "../components/ui/LinkCard";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Dashboard = () => {
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state: any) => state.user);
   const navigate = useNavigate();
 
   const getUserInfo = async () => {
-    const response = await axios.get(`http://localhost:8787/user`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    });
+    const response = await axios.get(
+      `https://biturl.debajit.workers.dev/user`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
     setData(response.data);
   };
 
   useEffect(() => {
-    getUserInfo();
+    setIsLoading(true);
+    getUserInfo().finally(() => setIsLoading(false));
   }, []);
 
   useEffect(() => {
@@ -36,51 +38,19 @@ const Dashboard = () => {
     <div className="h-[calc(100vh-3.5rem)] flex flex-col items-center justify-around">
       <UrlGenerator getUserInfo={getUserInfo} />
       <div className="grid grid-col-1 md:grid-cols-2 gap-5 mt-10">
-        {data?.user?.url?.map((url) => (
-          <Card className="p-6 flex items-center justify-between w-[450px]">
-            <div className="flex items-center gap-2">
-              <Avatar>
-                <AvatarImage
-                  src="https://images.wondershare.com/mockitt/tips/gradient-01.jpg"
-                  alt="@shadcn"
-                />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <a
-                    className="w-[220px] text-[15px] truncate font-[500] hover:underline"
-                    href={`https://biturl.debajit.workers.dev/url/${url.shortId}`}
-                  >
-                    https://biturl.debajit.workers.dev/url/${url.shortId}
-                  </a>
-
-                  <MdContentCopy
-                    onClick={() =>
-                      navigator.clipboard.writeText(
-                        `https://biturl.debajit.workers.dev/url/${url.shortId}`
-                      )
-                    }
-                    className=" cursor-pointer hover:[transform:scale(1.2)] ease-in-out duration-300 text-slate-500"
-                  />
+        {isLoading
+          ? Array.from({ length: 4 }).map((_, index: number) => (
+              <div key={index} className="flex items-center space-x-4">
+                <Skeleton className="h-12 w-12 rounded-full bg-slate-400" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[250px] bg-slate-400" />
+                  <Skeleton className="h-4 w-[200px] bg-slate-400" />
                 </div>
-                <a
-                  className="w-[180px] text-[12px] truncate hover:underline"
-                  href={`${url.redirectURL}`}
-                >
-                  {url.redirectURL}
-                </a>
               </div>
-            </div>
-            <Badge
-              variant="outline"
-              className="flex text-slate-500 py-1 cursor-pointer"
-            >
-              {<SignalMedium className="mt-[-5px]" />} {url.clickHistory.length}{" "}
-              clicks
-            </Badge>
-          </Card>
-        ))}
+            ))
+          : data?.user?.url?.map((url: any, index: number) => (
+              <LinkCard key={index} url={url} />
+            ))}
       </div>
     </div>
   );

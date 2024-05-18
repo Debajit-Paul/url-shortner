@@ -35,7 +35,7 @@ const SignIn = () => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "http://localhost:8787/user/me/signin",
+        "https://biturl.debajit.workers.dev/user/me/signin",
         {
           email,
           password,
@@ -101,8 +101,8 @@ const SignIn = () => {
           </CardContent>
           <CardFooter>
             {isLoading ? (
-              <Button disabled>
-                <Loader2 className="mr-2 h-4 animate-spin w-full" />
+              <Button disabled className="w-full">
+                <Loader2 className="mr-2 h-4 animate-spin" />
                 Loading
               </Button>
             ) : (
