@@ -5,9 +5,20 @@ import { Loader2 } from "lucide-react";
 import { useState } from "react";
 import { Settings } from "lucide-react";
 import axios from "axios";
+import { toast } from "sonner";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { MdContentCopy } from "react-icons/md";
 
 const UrlGenerator = ({ getUserInfo }: any) => {
   const [longurl, setLongUrl] = useState("");
+  const [shortUrlId, setshortUrlId] = useState("");
   const [customId, setCustomId] = useState("");
   const [customeUrl, setCustomeUrl] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -15,8 +26,8 @@ const UrlGenerator = ({ getUserInfo }: any) => {
   const handleShortUrl = async () => {
     try {
       setIsLoading(true);
-      await axios.post(
-        "https://biturl.debajit.workers.dev/user/",
+      const response = await axios.post(
+        "https://biturl.debajit.workers.dev/user",
         {
           url: longurl,
           customId,
@@ -27,54 +38,85 @@ const UrlGenerator = ({ getUserInfo }: any) => {
           },
         }
       );
+      setshortUrlId(response.data.url);
       setIsLoading(false);
+      if (response.data.message) {
+        toast(`${response.data.message.toUpperCase()}`);
+      }
       getUserInfo();
     } catch (error) {
-      //   toast(`There some error maybe incorrect Input ${error}`);
+      toast(`${error}`);
       setIsLoading(false);
     }
   };
 
   return (
-    <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px]">
-      <Input
-        type="text"
-        placeholder="https://anything.url"
-        onChange={(e: any) => setLongUrl(e.target.value)}
-      />
-      <Button
-        variant="outline"
-        className=" group flex items-center gap-3 w-[120px]"
-        onClick={() => setCustomeUrl(!customeUrl)}
-      >
-        <Settings className="rotate-0 group-hover:rotate-180 duration-700 ease-in-out" />
-        Custome
-      </Button>
-      {customeUrl && (
-        <div className="flex items-center gap-3 h-8 duration-700 ease-in-out">
-          <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-slate-500 select-none">
-            https://biturl.debajit.workers.dev/url
-          </div>
-          <p className="text-[20px]">/</p>
+    <>
+      <Dialog>
+        <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px]">
           <Input
             type="text"
-            placeholder="resume"
-            onChange={(e: any) => setCustomId(e.target.value)}
-            className="w-[30%]"
+            placeholder="https://anything.url"
+            onChange={(e: any) => setLongUrl(e.target.value)}
           />
-        </div>
-      )}
-      {isLoading ? (
-        <Button disabled>
-          <Loader2 className="mr-2 h-4 w-full animate-spin" />
-          Loading
-        </Button>
-      ) : (
-        <Button onClick={handleShortUrl} className="w-full">
-          Generate
-        </Button>
-      )}
-    </Card>
+          <Button
+            variant="outline"
+            className=" group flex items-center gap-3 w-[120px]"
+            onClick={() => setCustomeUrl(!customeUrl)}
+          >
+            <Settings className="rotate-0 group-hover:rotate-180 duration-700 ease-in-out" />
+            Custome
+          </Button>
+          {customeUrl && (
+            <div className="flex items-center gap-3 h-8 duration-700 ease-in-out">
+              <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-slate-500 select-none">
+                https://biturl.debajit.workers.dev/url
+              </div>
+              <p className="text-[20px]">/</p>
+              <Input
+                type="text"
+                placeholder="resume"
+                onChange={(e: any) => setCustomId(e.target.value)}
+                className="w-[30%]"
+              />
+            </div>
+          )}
+          {isLoading ? (
+            <Button disabled>
+              <Loader2 className="mr-2 h-4 w-full animate-spin" />
+              Loading
+            </Button>
+          ) : (
+            <DialogTrigger className="w-full">
+              <Button onClick={handleShortUrl}>Generate</Button>
+            </DialogTrigger>
+          )}
+        </Card>
+
+        <DialogContent>
+          <DialogHeader>
+            {shortUrlId && <DialogTitle>Are you absolutely sure?</DialogTitle>}
+            <DialogDescription>
+              <div className="p-3 border-slate-200 border rounded flex items-center justify-center gap-5 mb-2">
+                <a
+                  href={`https://biturl.debajit.workers.dev/url/${shortUrlId}`}
+                  className="hover:underline"
+                >{`https://biturl.debajit.workers.dev/url/${shortUrlId}`}</a>
+
+                <MdContentCopy
+                  onClick={() =>
+                    navigator.clipboard.writeText(
+                      `https://biturl.debajit.workers.dev/url/${shortUrlId}`
+                    )
+                  }
+                  className=" cursor-pointer hover:[transform:scale(1.2)] ease-in-out duration-300 text-slate-500"
+                />
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

@@ -44,7 +44,7 @@ model TempUrl {
   shortId   String   @unique
   redirectURL   String
   clickHistory  TempClickHistory[]
-    createdAt     DateTime           @default(now())
+  createdAt     DateTime           @default(now())
 }
 
 model TempClickHistory {

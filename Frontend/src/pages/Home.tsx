@@ -24,17 +24,17 @@ const Home = () => {
   const handleShortUrl = async () => {
     try {
       setIsLoading(true);
-      const resonse = await axios.post(
+      const response = await axios.post(
         "https://biturl.debajit.workers.dev/url",
         {
           url: longurl,
         }
       );
 
-      setshortUrlId(resonse.data.id);
+      setshortUrlId(response.data.url);
       setIsLoading(false);
-      if (resonse.data.message) {
-        toast(`${resonse.data.message.toUpperCase()}`);
+      if (response.data.message) {
+        toast(`${response.data.message.toUpperCase()}`);
       }
     } catch (error) {
       toast(`There some error maybe incorrect Input ${error}`);

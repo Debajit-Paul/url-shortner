@@ -4,57 +4,74 @@ import { withAccelerate } from "@prisma/extension-accelerate";
 import { env } from "hono/adapter";
 
 const generateNewUrl = async (c: any) => {
-  const { url, customId } = await c.req.json();
-
-  if (!url) {
-    return c.json({ message: "url is needed" }, 400);
-  }
-
   const { DATABASE_URL } = env<{ DATABASE_URL: string }>(c);
 
   const prisma = new PrismaClient({
     datasourceUrl: DATABASE_URL,
   }).$extends(withAccelerate());
 
-  const urlExist = await prisma.url.findFirst({
-    where: {
-      redirectURL: url,
-    },
-  });
+  const { url, customId } = await c.req.json();
 
-  if (urlExist) {
-    return c.json({ message: "url already exist", id: urlExist.shortId });
+  if (!url) {
+    return c.json({ message: "url is needed" }, 400);
   }
 
   const userId = c.get("userId");
+  const urlId = nanoid(8);
 
-  if (!customId) {
-    const urlId = nanoid(8);
-    const newUrl = await prisma.url.create({
+  // Temporary Urls
+  if (!userId) {
+    const urlExist = await prisma.tempUrl.findFirst({
+      where: {
+        redirectURL: url,
+      },
+    });
+
+    if (urlExist) {
+      return c.json({ message: "url already exist", id: urlExist.shortId });
+    }
+    console.log(urlId);
+    const newUrl = await prisma.tempUrl.create({
       data: {
         shortId: urlId,
         redirectURL: url,
-        ...(userId && { user: { connect: { id: userId } } }),
       },
     });
     return c.json({
       id: newUrl.id,
       url: newUrl.shortId,
     });
-  } else {
-    const shortIdExist = await prisma.url.findFirst({
+  }
+  // Users Personal Url
+  else {
+    const urlExist = await prisma.url.findFirst({
       where: {
-        shortId: customId,
+        user: {
+          id: userId,
+        },
+        redirectURL: url,
       },
     });
 
-    if (shortIdExist) {
-      return c.json({ message: "customId already exist" }, 400);
+    if (urlExist) {
+      return c.json({ message: "url already exist", id: urlExist.shortId });
+    }
+
+    if (customId) {
+      const shortIdExist = await prisma.url.findFirst({
+        where: {
+          shortId: customId,
+        },
+      });
+
+      if (shortIdExist) {
+        return c.json({ message: "customId already exist" }, 400);
+      }
     }
 
     const newUrl = await prisma.url.create({
       data: {
-        shortId: customId,
+        shortId: customId ? customId : urlId,
         redirectURL: url,
         ...(userId && { user: { connect: { id: userId } } }),
       },

@@ -6,7 +6,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const LinkCard = ({ url }: any) => {
   return (
-    <Card className="p-6 flex items-center justify-between w-[450px]">
+    <Card className="p-6 flex items-center justify-between w-[450px] hover:shadow-lg hover:drop-shadow-lg hover:shadow-[#ffd700cc] hover:border-[#f5b24e] ease-in-out duration-500">
       <div className="flex items-center gap-2">
         <Avatar>
           <AvatarImage
