@@ -16,7 +16,7 @@ const UrlGenerator = ({ getUserInfo }: any) => {
     try {
       setIsLoading(true);
       await axios.post(
-        "https://biturl.debajit.workers.dev/user/url",
+        "https://biturl.debajit.workers.dev/user/",
         {
           url: longurl,
           customId,

@@ -37,3 +37,19 @@ model ClickHistory {
   url Url @relation(fields: [urlId],references: [id])
   urlId Int
 }
+
+
+model TempUrl {
+  id         Int      @id @default(autoincrement())
+  shortId   String   @unique
+  redirectURL   String
+  clickHistory  TempClickHistory[]
+    createdAt     DateTime           @default(now())
+}
+
+model TempClickHistory {
+  id  Int @id @default(autoincrement())
+  clickTime DateTime
+  url TempUrl @relation(fields: [urlId],references: [id], onDelete: Cascade)
+  urlId Int
+}

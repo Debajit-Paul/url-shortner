@@ -4,7 +4,7 @@ import { SignalMedium } from "lucide-react";
 import { MdContentCopy } from "react-icons/md";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-const LinkCard = ({ url }) => {
+const LinkCard = ({ url }: any) => {
   return (
     <Card className="p-6 flex items-center justify-between w-[450px]">
       <div className="flex items-center gap-2">

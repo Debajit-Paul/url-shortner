@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
@@ -19,22 +19,23 @@ import { useNavigate } from "react-router-dom";
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm();
-
   type signUpSubmitType = {
     username: string;
     email: string;
     password: string;
   };
-  const SignUpSubmitHandler = async ({
+
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<signUpSubmitType>();
+
+  const SignUpSubmitHandler: SubmitHandler<signUpSubmitType> = async ({
     username,
     email,
     password,
-  }: signUpSubmitType) => {
+  }) => {
     try {
       setIsLoading(true);
       const response = await axios.post(

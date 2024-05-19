@@ -6,8 +6,25 @@ import { useSelector } from "react-redux";
 import LinkCard from "../components/ui/LinkCard";
 import { Skeleton } from "@/components/ui/skeleton";
 
+interface UrlType {
+  shortId: string;
+  redirectURL: string;
+}
+
+interface UserType {
+  id: number;
+  username: string;
+  email: string;
+  url: UrlType[]; // Assuming `url` is an array of `UrlType`
+  // Add other properties if necessary
+}
+
+interface DataType {
+  user: UserType;
+}
+
 const Dashboard = () => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<DataType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useSelector((state: any) => state.user);
   const navigate = useNavigate();

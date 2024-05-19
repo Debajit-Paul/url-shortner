@@ -10,9 +10,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userLogIn } from "../../redux/feature/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -22,16 +22,19 @@ const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm();
   type signInSubmitType = {
     email: string;
     password: string;
   };
-  const SignInSubmitHandler = async ({ email, password }: signInSubmitType) => {
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<signInSubmitType>();
+  const SignInSubmitHandler: SubmitHandler<signInSubmitType> = async ({
+    email,
+    password,
+  }) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
