@@ -55,14 +55,17 @@ const Dashboard = () => {
   }, [user]);
   return (
     <>
-      <div className="h-[calc(100vh-3.5rem)] flex flex-col items-center justify-around">
+      <div className="h-[calc(100vh-5rem)] flex flex-col items-center justify-around">
         <UrlGenerator getUserInfo={getUserInfo} />
 
-        <ScrollArea className="h-auto max-h-[400px] w-auto max-w-[1450px] rounded-md border ">
-          <div className="flex flex-wrap gap-5 m-6 my-10">
+        <ScrollArea className="h-auto max-h-[500px] w-full max-w-[100%] sm:max-w-[500px] mx-auto">
+          <div className="flex flex-wrap items-center justify-center gap-5 m-4 sm:m-6 my-5 sm:my-10">
             {isLoading
               ? Array.from({ length: 3 }).map((_, index: number) => (
-                  <div key={index} className="flex items-center space-x-4">
+                  <div
+                    key={index}
+                    className="flex items-center space-x-4 p-5 border  rounded-lg"
+                  >
                     <Skeleton className="h-12 w-12 rounded-full bg-slate-400" />
                     <div className="space-y-2">
                       <Skeleton className="h-4 w-[250px] bg-slate-400" />

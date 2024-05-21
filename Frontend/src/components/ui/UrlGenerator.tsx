@@ -53,7 +53,7 @@ const UrlGenerator = ({ getUserInfo }: any) => {
   return (
     <>
       <Dialog>
-        <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px]">
+        <Card className="p-4 md:p-6 flex flex-col justify-center items-center gap-[1rem] w-[90%] sm:w-[450px] h-auto my-[20px]">
           <Input
             type="text"
             placeholder="https://anything.url"
@@ -69,15 +69,15 @@ const UrlGenerator = ({ getUserInfo }: any) => {
           </Button>
           {customeUrl && (
             <div className="flex items-center gap-3 h-8 duration-700 ease-in-out">
-              <div className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-slate-500 select-none">
-                https://biturl.debajit.workers.dev/url
+              <div className="flex h-10 w-[70%] md:w-full rounded-md border border-input bg-background px-3 py-2 text-sm text-slate-500 select-none">
+                biturl.debajit.workers.dev/url
               </div>
               <p className="text-[20px]">/</p>
               <Input
                 type="text"
                 placeholder="resume"
                 onChange={(e: any) => setCustomId(e.target.value)}
-                className="w-[30%]"
+                className="w-[35%] md:w-[30%]"
               />
             </div>
           )}

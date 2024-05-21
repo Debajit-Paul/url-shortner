@@ -14,7 +14,7 @@ const Header = () => {
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   return (
-    <div className="w-full mx-auto px-[2rem] flex h-[3.5rem] max-w-screen-2xl items-center justify-between border-b-2">
+    <div className="mx-auto max-w-[1440px] flex items-center justify-between border-b-2 p-3 sm:p-5 relative">
       <Link to={"/"}>
         <img src="./logo.jpg" className="w-[80px]" />
       </Link>

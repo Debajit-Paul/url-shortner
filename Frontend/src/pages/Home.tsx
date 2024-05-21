@@ -42,7 +42,7 @@ const Home = () => {
     }
   };
   return (
-    <div className="h-[calc(100vh-3.5rem)] w-full bg-slate-300 flex items-center justify-center">
+    <div className="h-[calc(100vh-5.1rem)] w-full bg-slate-300 flex items-center justify-center">
       <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px]">
         <img src="./logo.jpg" className="w-[120px]" />
         <p className="text-[1rem] font-[400] text-slate-500">
