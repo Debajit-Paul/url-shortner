@@ -3,13 +3,12 @@ import { env } from "hono/adapter";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { sign } from "hono/jwt";
-import { signInSchema, signUpSchema } from "../utils/zod";
+import { signInSchema, signUpSchema, urlSchema } from "../utils/zod";
 import { zValidator } from "@hono/zod-validator";
 import { redirect } from "../middleware/redirect";
 import { jwtVerify } from "../middleware/jwtVerify";
 import { logger } from "hono/logger";
 import { generateNewUrl } from "../utils/generateUrl";
-import { urlSchema } from "../utils/zod";
 
 type Variables = {
   userId: number;
