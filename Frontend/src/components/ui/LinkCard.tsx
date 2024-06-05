@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 const LinkCard = ({ url }: any) => {
   return (
     <a
+      target="_blank"
       href={`https://biturl.debajit.workers.dev/url/${url.shortId}`}
       className="flex items-center justify-center"
     >
@@ -22,6 +23,7 @@ const LinkCard = ({ url }: any) => {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <a
+                target="_blank"
                 className="w-[150px] sm:w-[220px] text-[13px] sm:text-[15px] truncate font-[500] hover:underline"
                 href={`https://biturl.debajit.workers.dev/url/${url.shortId}`}
               >
@@ -38,6 +40,7 @@ const LinkCard = ({ url }: any) => {
               />
             </div>
             <a
+              target="_blank"
               className="w-[160px] sm:w-[180px] text-[11px] sm:text-[12px] truncate hover:underline"
               href={`${url.redirectURL}`}
             >

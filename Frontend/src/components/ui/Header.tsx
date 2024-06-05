@@ -25,7 +25,7 @@ const Header = () => {
               {user.username.charAt(0).toUpperCase()}
             </div>
           </DropdownMenuTrigger>
-          <DropdownMenuContent>
+          <DropdownMenuContent className="flex items-center justify-center">
             <DropdownMenuItem
               className="gap-1 cursor-pointer"
               onClick={() => {
@@ -33,7 +33,7 @@ const Header = () => {
                 localStorage.setItem("token", "");
               }}
             >
-              Log Out <ArrowUpRight className="mr-2 h-4 w-4" />
+              Log Out <ArrowUpRight className="h-4 w-4" />
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

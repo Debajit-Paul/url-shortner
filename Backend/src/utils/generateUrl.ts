@@ -28,7 +28,7 @@ const generateNewUrl = async (c: any) => {
     });
 
     if (urlExist) {
-      return c.json({ message: "url already exist", id: urlExist.shortId });
+      return c.json({ message: "url already exist", url: urlExist.shortId });
     }
     console.log(urlId);
     const newUrl = await prisma.tempUrl.create({
@@ -54,7 +54,7 @@ const generateNewUrl = async (c: any) => {
     });
 
     if (urlExist) {
-      return c.json({ message: "url already exist", id: urlExist.shortId });
+      return c.json({ message: "url already exist", url: urlExist.shortId });
     }
 
     if (customId) {

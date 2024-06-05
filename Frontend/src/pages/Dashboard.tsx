@@ -59,7 +59,7 @@ const Dashboard = () => {
         <UrlGenerator getUserInfo={getUserInfo} />
 
         <ScrollArea className="h-auto max-h-[500px] w-full max-w-[100%] sm:max-w-[500px] mx-auto">
-          <div className="flex flex-wrap items-center justify-center gap-5 m-4 sm:m-6 my-5 sm:my-10">
+          <div className="flex flex-col-reverse flex-wrap items-center justify-center gap-5 m-4 sm:m-6 my-5 sm:my-10">
             {isLoading
               ? Array.from({ length: 3 }).map((_, index: number) => (
                   <div

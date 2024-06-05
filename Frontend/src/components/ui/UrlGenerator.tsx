@@ -93,28 +93,31 @@ const UrlGenerator = ({ getUserInfo }: any) => {
           )}
         </Card>
 
-        <DialogContent>
-          <DialogHeader>
-            {shortUrlId && <DialogTitle>Are you absolutely sure?</DialogTitle>}
-            <DialogDescription>
-              <div className="p-3 border-slate-200 border rounded flex items-center justify-center gap-5 mb-2">
-                <a
-                  href={`https://biturl.debajit.workers.dev/url/${shortUrlId}`}
-                  className="hover:underline"
-                >{`https://biturl.debajit.workers.dev/url/${shortUrlId}`}</a>
+        {isLoading ? null : (
+          <DialogContent className="w-[90%] sm:w-auto px-[1rem] py-6 md:p-6 rounded-lg">
+            <DialogHeader className="flex flex-col gap-5">
+              {shortUrlId && <DialogTitle>Your Short URL</DialogTitle>}
+              <DialogDescription>
+                <div className="px-[0.25rem] py-3 sm:p-3 border-slate-200 border rounded flex items-center justify-center gap-3 sm:gap-5 mb-2">
+                  <a
+                    target="_blank"
+                    href={`https://biturl.debajit.workers.dev/url/${shortUrlId}`}
+                    className="hover:underline"
+                  >{`https://biturl.debajit.workers.dev/url/${shortUrlId}`}</a>
 
-                <MdContentCopy
-                  onClick={() =>
-                    navigator.clipboard.writeText(
-                      `https://biturl.debajit.workers.dev/url/${shortUrlId}`
-                    )
-                  }
-                  className=" cursor-pointer hover:[transform:scale(1.2)] ease-in-out duration-300 text-slate-500"
-                />
-              </div>
-            </DialogDescription>
-          </DialogHeader>
-        </DialogContent>
+                  <MdContentCopy
+                    onClick={() =>
+                      navigator.clipboard.writeText(
+                        `https://biturl.debajit.workers.dev/url/${shortUrlId}`
+                      )
+                    }
+                    className=" cursor-pointer hover:[transform:scale(1.2)] ease-in-out duration-300 text-slate-500"
+                  />
+                </div>
+              </DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        )}
       </Dialog>
     </>
   );
