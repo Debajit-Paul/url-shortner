@@ -17,6 +17,7 @@ import { userLogIn } from "../../redux/feature/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { BASE_URL } from "@/config";
 
 const SignIn = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,13 +38,10 @@ const SignIn = () => {
   }) => {
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "https://biturl.debajit.workers.dev/user/me/signin",
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/user/me/signin`, {
+        email,
+        password,
+      });
       setIsLoading(false);
       localStorage.setItem("token", response.data.token);
       dispatch(userLogIn(response.data.payload));

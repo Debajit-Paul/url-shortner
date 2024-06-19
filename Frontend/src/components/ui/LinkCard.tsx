@@ -48,6 +48,7 @@ const LinkCard = ({ url }: any) => {
             </a>
           </div>
         </div>
+
         <Badge
           variant="outline"
           className="flex items-center text-[11px] text-slate-500 py-2 cursor-pointer w-[75px] sm:w-auto h-[25px] sm:h-auto"

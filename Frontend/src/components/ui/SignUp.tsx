@@ -15,6 +15,7 @@ import axios from "axios";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "@/config";
 
 const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,14 +39,11 @@ const SignUp = () => {
   }) => {
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "http://localhost:8787/user/me/signup",
-        {
-          username,
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${BASE_URL}/user/me/signup`, {
+        username,
+        email,
+        password,
+      });
       setIsLoading(false);
       console.log(response.data);
       navigate("/dashboard");

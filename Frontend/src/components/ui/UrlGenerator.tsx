@@ -15,6 +15,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { MdContentCopy } from "react-icons/md";
+import { BASE_URL } from "@/config";
 
 const UrlGenerator = ({ getUserInfo }: any) => {
   const [longurl, setLongUrl] = useState("");
@@ -27,7 +28,7 @@ const UrlGenerator = ({ getUserInfo }: any) => {
     try {
       setIsLoading(true);
       const response = await axios.post(
-        "https://biturl.debajit.workers.dev/user",
+        `${BASE_URL}/user`,
         {
           url: longurl,
           customId,

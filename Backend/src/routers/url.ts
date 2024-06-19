@@ -17,13 +17,13 @@ url.get("/cleanuptemp", async (c) => {
     datasourceUrl: DATABASE_URL,
   }).$extends(withAccelerate());
 
-  const thirtyDaysAgo = new Date();
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+  const oneDayAgo = new Date();
+  oneDayAgo.setDate(oneDayAgo.getDate() - 1);
   try {
     await prisma.tempUrl.deleteMany({
       where: {
         createdAt: {
-          lt: thirtyDaysAgo,
+          lt: oneDayAgo,
         },
       },
     });

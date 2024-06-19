@@ -7,6 +7,7 @@ import LinkCard from "../components/ui/LinkCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster, toast } from "sonner";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { BASE_URL } from "@/config";
 
 interface UrlType {
   shortId: string;
@@ -32,14 +33,11 @@ const Dashboard = () => {
   const navigate = useNavigate();
 
   const getUserInfo = async () => {
-    const response = await axios.get(
-      `https://biturl.debajit.workers.dev/user`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      }
-    );
+    const response = await axios.get(`${BASE_URL}/user`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
     setData(response.data);
   };
 
@@ -55,7 +53,7 @@ const Dashboard = () => {
   }, [user]);
   return (
     <>
-      <div className="h-[calc(100vh-5rem)] flex flex-col items-center justify-around">
+      <div className="h-[calc(100vh-5rem)] flex flex-col items-center justify-around relative z-10">
         <UrlGenerator getUserInfo={getUserInfo} />
 
         <ScrollArea className="h-auto max-h-[500px] w-full max-w-[100%] sm:max-w-[500px] mx-auto">

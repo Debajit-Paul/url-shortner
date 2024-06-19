@@ -28,7 +28,11 @@ const generateNewUrl = async (c: any) => {
     });
 
     if (urlExist) {
-      return c.json({ message: "url already exist", url: urlExist.shortId });
+      return c.json({
+        message: "url already exist",
+        shortId: urlExist.shortId,
+        redirectURL: url,
+      });
     }
     console.log(urlId);
     const newUrl = await prisma.tempUrl.create({
@@ -39,7 +43,8 @@ const generateNewUrl = async (c: any) => {
     });
     return c.json({
       id: newUrl.id,
-      url: newUrl.shortId,
+      shortId: newUrl.shortId,
+      redirectURL: newUrl.redirectURL,
     });
   }
   // Users Personal Url

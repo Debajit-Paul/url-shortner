@@ -14,9 +14,9 @@ const Header = () => {
   const { user } = useSelector((state: any) => state.user);
   const dispatch = useDispatch();
   return (
-    <div className="mx-auto max-w-[1440px] flex items-center justify-between border-b-2 p-3 sm:p-5 relative">
+    <div className="mx-auto max-w-[1440px] flex items-center justify-between border-b-2 p-3 sm:p-5 relative z-10">
       <Link to={"/"}>
-        <img src="./logo.jpg" className="w-[80px]" />
+        <img src="./logo.png" className="w-[80px]" />
       </Link>
       {user ? (
         <DropdownMenu>
