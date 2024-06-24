@@ -17,7 +17,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { BASE_URL } from "@/config";
-import LinkCard from "@/components/ui/LinkCard";
 import {
   Tooltip,
   TooltipContent,
@@ -61,8 +60,8 @@ const Home = () => {
   return (
     <div className="h-[calc(100vh-5.1rem)] w-full flex flex-col gap-5 items-center justify-center relative overflow-hidden z-10">
       <Dialog>
-        <Card className="opacity-100 p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px] relative z-10">
-          <img src="./logo.jpg" className="w-[120px]" />
+        <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px]">
+          <img src="./logo.png" className="w-[120px]" />
           <p className="text-[1rem] font-[400] text-slate-500">
             Short Links With Ease
           </p>
@@ -111,7 +110,7 @@ const Home = () => {
         </Card>
 
         {isLoading ? null : (
-          <DialogContent className="w-[90%] sm:w-auto px-[1rem] py-6 md:p-6 rounded-lg relative z-10">
+          <DialogContent className="w-[90%] sm:w-auto px-[1rem] py-6 md:p-6 rounded-lg">
             <DialogHeader className="flex flex-col gap-5">
               {shortUrlId && <DialogTitle>Your Short URL</DialogTitle>}
               <DialogDescription>
@@ -166,7 +165,7 @@ const Home = () => {
             ))}
           </Card>
         ) : null}
-        <Toaster position="bottom-right" className="relative z-10" />
+        <Toaster position="bottom-right" />
       </Dialog>
     </div>
   );

@@ -13,7 +13,7 @@ const Auth = () => {
     }
   }, []);
   return (
-    <div className="h-screen w-full  flex items-center justify-center relative z-10">
+    <div className="h-[calc(100vh-5.1rem)] w-full  flex items-center justify-center relative z-10">
       <Tabs defaultValue="signin" className="w-[400px]">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signin">SignIn</TabsTrigger>
