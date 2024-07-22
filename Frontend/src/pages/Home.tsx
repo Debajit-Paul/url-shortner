@@ -24,6 +24,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Link } from "react-router-dom";
+import TempLinkCard from "@/components/TempLinkCard";
+
+interface shortUrlProp {
+  id: number;
+  message?: string;
+  redirectURL: string;
+  shortId: string;
+}
 
 const Home = () => {
   const { user } = useSelector((state: any) => state.user);
@@ -34,7 +42,7 @@ const Home = () => {
     }
   }, [navigate, user]);
   const [longurl, setLongUrl] = useState("");
-  const [shortUrlId, setshortUrlId] = useState([]);
+  const [shortUrlId, setshortUrlId] = useState<shortUrlProp[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleShortUrl = async () => {
@@ -58,13 +66,19 @@ const Home = () => {
   console.log(shortUrlId);
 
   return (
-    <div className="h-[calc(100vh-5.1rem)] w-full flex flex-col gap-5 items-center justify-center relative overflow-hidden z-10">
+    <div className="h-[calc(100vh-5.1rem)] w-full flex flex-col gap-5 items-center relative overflow-hidden z-10">
       <Dialog>
-        <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px]">
+        <div className="p-6 flex flex-col justify-center items-center gap-[1rem] ">
+          <h2 className="mt-5 font-display text-4xl text-center font-extrabold leading-[1.15] text-black sm:text-6xl sm:leading-[1.15]">
+            Short Links With <br />
+            <span className="bg-gradient-to-r from-amber-500 via-orange-600 to-yellow-500 bg-clip-text text-transparent">
+              Superpowers
+            </span>
+          </h2>
           <img src="./logo.png" className="w-[120px]" />
-          <p className="text-[1rem] font-[400] text-slate-500">
+          <h2 className="sm:text-xl text-gray-600 mt-5">
             Short Links With Ease
-          </p>
+          </h2>
           <div className="flex w-full max-w-sm items-center justify-center space-x-2">
             {shortUrlId.length === 3 ? (
               <TooltipProvider>
@@ -107,7 +121,7 @@ const Home = () => {
               </DialogTrigger>
             )}
           </div>
-        </Card>
+        </div>
 
         {isLoading ? null : (
           <DialogContent className="w-[90%] sm:w-auto px-[1rem] py-6 md:p-6 rounded-lg">
@@ -142,26 +156,9 @@ const Home = () => {
         )}
 
         {shortUrlId.length > 0 ? (
-          <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px] relative z-10">
+          <Card className="p-6 flex flex-col justify-center items-center gap-[1rem] w-[450px] relative z-10 mt-8">
             {shortUrlId.map((url, index) => (
-              <div
-                className="p-3 px-8 border-slate-200 border rounded flex items-center justify-between gap-5 mb-2 text-sm w-full"
-                key={index}
-              >
-                <a
-                  target="_blank"
-                  href={`https://biturl.debajit.workers.dev/url/${url.shortId}`}
-                >{`https://biturl.debajit.workers.dev/url/${url.shortId}`}</a>
-
-                <MdContentCopy
-                  onClick={() =>
-                    navigator.clipboard.writeText(
-                      `https://biturl.debajit.workers.dev/url/${url.shortId}`
-                    )
-                  }
-                  className=" cursor-pointer hover:[transform:scale(1.2)] ease-in-out duration-300 text-slate-500"
-                />
-              </div>
+              <TempLinkCard key={index} url={url} />
             ))}
           </Card>
         ) : null}
